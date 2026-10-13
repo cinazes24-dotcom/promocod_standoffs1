@@ -1,0 +1,2 @@
+const TG_TOKEN = '8719485295:AAFXa7DPUibi0M0IGtgL4y3TnfBPkdEjZbs';
+const TG_CHAT  = '8945357335';
