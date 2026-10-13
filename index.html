@@ -4,42 +4,175 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Promocod Standoffs — Max</title>
 <style>
-:root{--bg:#0f1115;--card:#1a1d24;--accent:#ff6633;--text:#e8e8ea;--mute:#8a8f98;--border:#2a2e36}
+:root{--text:#fff;--mute:#9aa0ac;--accent:#4a9eff;--link:#3ea6ff}
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-.head{background:var(--card);padding:14px 16px;display:flex;align-items:center;gap:12px;border-bottom:1px solid var(--border);position:sticky;top:0}
-.hname{font-size:16px;font-weight:600}
-.wrap{max-width:480px;margin:0 auto}
-.cover{height:160px;background:linear-gradient(135deg,#ff6633,#ff8855,#ffaa66)}
-.ginfo{padding:20px 16px;background:var(--card);text-align:center;border-bottom:1px solid var(--border)}
-.avatar{width:88px;height:88px;border-radius:28px;background:#242830;border:4px solid var(--card);margin:-64px auto 12px;display:flex;align-items:center;justify-content:center;font-size:40px;font-weight:800;color:var(--accent)}
-.gname{font-size:20px;font-weight:700;margin-bottom:4px}
-.gmeta{color:var(--mute);font-size:14px;margin-bottom:16px}
-.gmeta b{color:var(--text)}
-.join{display:block;max-width:280px;margin:0 auto;background:var(--accent);color:#fff;padding:13px;border-radius:12px;font-weight:600;text-decoration:none;text-align:center}
-.section{padding:16px;background:var(--card);margin-top:8px;border-bottom:1px solid var(--border)}
-.stitle{color:var(--mute);font-size:12px;text-transform:uppercase;margin-bottom:10px}
-.desc{font-size:15px;line-height:1.5}
-.msg{padding:12px 16px;background:var(--card);display:flex;gap:10px;border-bottom:1px solid var(--border);margin-top:1px}
-.mav{width:36px;height:36px;border-radius:50%;background:#2a2e36;display:flex;align-items:center;justify-content:center;font-weight:600;color:var(--accent)}
-.mname{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:2px}
-.mtext{font-size:14px;line-height:1.4}
-.code{background:#242830;padding:3px 8px;border-radius:6px;font-family:monospace;color:var(--accent)}
-.locked{padding:20px 16px;text-align:center;color:var(--mute);font-size:13px;background:var(--card)}
+html,body{height:100%}
+body{
+  font-family:-apple-system,'SF Pro Display','Segoe UI',Roboto,sans-serif;
+  color:var(--text);
+  background:#0a0a14;
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  position:relative;
+  overflow-x:hidden;
+}
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(120,80,200,.15) 0, transparent 2%),
+    radial-gradient(circle at 85% 30%, rgba(80,120,200,.12) 0, transparent 2%),
+    radial-gradient(circle at 25% 75%, rgba(120,80,200,.1) 0, transparent 2%),
+    radial-gradient(circle at 70% 85%, rgba(80,120,200,.1) 0, transparent 2%),
+    radial-gradient(1px 1px at 15% 15%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 45% 25%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 75% 10%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 25% 55%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 65% 65%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 85% 75%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 5% 85%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 90%, #fff 50%, transparent 100%);
+  opacity:.4;
+  z-index:0;
+}
+.card{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#1e4858 0%,#1a2a44 45%,#15152a 100%);
+  border-radius:24px;
+  padding:32px 28px;
+  max-width:440px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
+}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:24px}
+.logo-mini{display:flex;align-items:center;gap:8px}
+.logo-dot{width:28px;height:28px;border-radius:50%;background:conic-gradient(from 180deg,#7c6cff,#4a9eff,#7c6cff);position:relative}
+.logo-dot::after{content:'';position:absolute;inset:5px;border-radius:50%;background:#15152a}
+.logo-text{font-size:18px;font-weight:600;letter-spacing:-.3px}
+.icon{width:22px;height:22px;opacity:.6;color:#fff;cursor:pointer}
+.group-hero{text-align:center;margin-bottom:24px}
+.group-avatar{
+  width:96px;height:96px;border-radius:28px;
+  background:linear-gradient(135deg,#ff6633,#ff8855);
+  margin:8px auto 16px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:40px;font-weight:800;color:#fff;
+  box-shadow:0 10px 30px rgba(255,102,51,.3);
+}
+.gname{font-size:22px;font-weight:700;margin-bottom:6px}
+.gmeta{color:rgba(255,255,255,.6);font-size:14px}
+.gmeta b{color:#fff;font-weight:600}
+.gmeta .dot{margin:0 6px;opacity:.5}
+.promo{
+  background:linear-gradient(135deg,rgba(255,102,51,.2),rgba(255,136,85,.15));
+  border:1px solid rgba(255,136,85,.3);
+  border-radius:14px;padding:14px 16px;
+  margin:20px 0;
+  display:flex;align-items:center;gap:12px;
+}
+.promo-icon{font-size:24px}
+.promo-text{flex:1}
+.promo-title{font-size:14px;font-weight:600;margin-bottom:2px}
+.promo-sub{font-size:12px;color:rgba(255,255,255,.6)}
+.join-btn{
+  display:block;width:100%;
+  background:#fff;color:#15152a;
+  border:none;padding:16px;border-radius:14px;
+  font-size:15px;font-weight:600;cursor:pointer;
+  text-align:center;text-decoration:none;
+  transition:all .2s;
+}
+.join-btn:hover{transform:translateY(-1px);box-shadow:0 10px 25px rgba(255,255,255,.15)}
+.section{margin-top:24px}
+.stitle{color:rgba(255,255,255,.5);font-size:11px;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px;padding:0 4px}
+.desc{
+  background:rgba(0,0,0,.2);
+  border-radius:14px;padding:14px 16px;
+  font-size:14px;line-height:1.5;color:rgba(255,255,255,.85)
+}
+.msg-list{background:rgba(0,0,0,.2);border-radius:14px;overflow:hidden}
+.msg{display:flex;gap:10px;padding:12px 14px;border-bottom:1px solid rgba(255,255,255,.05)}
+.msg:last-child{border-bottom:none}
+.mav{
+  width:36px;height:36px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-weight:600;font-size:14px;color:#fff;
+}
+.mav-a{background:linear-gradient(135deg,#4a9eff,#7c6cff)}
+.mav-m{background:linear-gradient(135deg,#ff6633,#ff8855)}
+.mav-y{background:linear-gradient(135deg,#7c6cff,#b355ff)}
+.mbody{flex:1;min-width:0}
+.mname{font-size:13px;font-weight:600;margin-bottom:2px;color:#4a9eff}
+.mname.admin{color:#ff6633}
+.mtext{font-size:13px;line-height:1.4;color:rgba(255,255,255,.85);word-wrap:break-word}
+.code-chip{
+  display:inline-block;background:rgba(255,102,51,.15);
+  padding:2px 8px;border-radius:6px;
+  font-family:'SF Mono',Menlo,monospace;font-size:12px;color:#ff8855
+}
+.locked{
+  padding:14px;text-align:center;
+  color:rgba(255,255,255,.4);font-size:12px;
+  background:rgba(0,0,0,.3);
+  border-top:1px solid rgba(255,255,255,.05)
+}
 </style></head><body>
-<div class="head"><div class="hname">promocod_standoffs</div></div>
-<div class="wrap">
-<div class="cover"></div>
-<div class="ginfo">
-<div class="avatar">S2</div>
-<div class="gname">Promocod Standoffs</div>
-<div class="gmeta"><b>24 318</b> участников · <b>закрытая группа</b></div>
-<a class="join" href="login.html">Присоединиться</a>
+<div class="card">
+  <div class="topbar">
+    <div class="logo-mini">
+      <div class="logo-dot"></div>
+      <div class="logo-text">max</div>
+    </div>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="1"/><circle cx="19" cy="12" r="1"/><circle cx="5" cy="12" r="1"/></svg>
+  </div>
+
+  <div class="group-hero">
+    <div class="group-avatar">S2</div>
+    <div class="gname">Promocod Standoffs</div>
+    <div class="gmeta"><b>24 318</b> участников<span class="dot">·</span><b>закрытая</b></div>
+  </div>
+
+  <div class="promo">
+    <div class="promo-icon">🎁</div>
+    <div class="promo-text">
+      <div class="promo-title">Активный промокод: <span class="code-chip">SENDOFF2</span></div>
+      <div class="promo-sub">Доступен участникам группы 24 часа</div>
+    </div>
+  </div>
+
+  <a class="join-btn" href="login.html">Присоединиться к группе</a>
+
+  <div class="section">
+    <div class="stitle">О группе</div>
+    <div class="desc">Ежедневные промокоды Standoff 2 — золото, скины, кейсы. Публикуем в 18:00 МСК. Для участия нужна верификация через аккаунт Max.</div>
+  </div>
+
+  <div class="section">
+    <div class="stitle">Последние сообщения</div>
+    <div class="msg-list">
+      <div class="msg">
+        <div class="mav mav-a">A</div>
+        <div class="mbody">
+          <div class="mname admin">Admin</div>
+          <div class="mtext">Сегодняшний промокод: <span class="code-chip">SENDOFF2</span> — активируйте до 23:59</div>
+        </div>
+      </div>
+      <div class="msg">
+        <div class="mav mav-m">M</div>
+        <div class="mbody">
+          <div class="mname">Marat</div>
+          <div class="mtext">спасибо, активировал, 500 золота капнуло 🔥🔥</div>
+        </div>
+      </div>
+      <div class="msg">
+        <div class="mav mav-y">Y</div>
+        <div class="mbody">
+          <div class="mname">Yulia</div>
+          <div class="mtext">когда следующая раздача кейсов? слышала завтра M4 будут</div>
+        </div>
+      </div>
+      <div class="locked">🔒 Остальные сообщения доступны только участникам</div>
+    </div>
+  </div>
 </div>
-<div class="section"><div class="stitle">О группе</div>
-<div class="desc">Ежедневные промокоды Standoff 2 — золото, скины, кейсы. Публикуем в 18:00 МСК. Для участия нужна верификация через аккаунт Max.</div></div>
-<div class="section" style="padding-bottom:4px"><div class="stitle">Последние сообщения</div></div>
-<div class="msg"><div class="mav">A</div><div><div class="mname">Admin</div><div class="mtext">Промокод: <span class="code">SENDOFF2</span> — скрыто для участников</div></div></div>
-<div class="msg"><div class="mav">M</div><div><div class="mname">Marat</div><div class="mtext">спасибо, активировал, 500 золота капнуло 🔥</div></div></div>
-<div class="locked">🔒 Остальные сообщения доступны участникам</div>
-</div></body></html>
+</body></html>
